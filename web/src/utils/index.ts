@@ -1,1 +1,1 @@
-// Utility functions barrel exports
+// Barrel export for utility functions

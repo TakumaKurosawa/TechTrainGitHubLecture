@@ -1,1 +1,1 @@
-// Feature-specific components barrel exports
+// Barrel export for feature-specific components

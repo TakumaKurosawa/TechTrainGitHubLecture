@@ -1,1 +1,1 @@
-// Custom hooks barrel exports
+// Barrel export for custom hooks

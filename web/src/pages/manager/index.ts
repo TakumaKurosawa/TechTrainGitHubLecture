@@ -1,1 +1,1 @@
-// Manager use case pages barrel exports
+// Barrel export for manager use case pages

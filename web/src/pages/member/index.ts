@@ -1,1 +1,1 @@
-// Member use case pages barrel exports
+// Barrel export for member use case pages

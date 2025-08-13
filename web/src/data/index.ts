@@ -1,1 +1,1 @@
-// Mock data barrel exports
+// Barrel export for mock data

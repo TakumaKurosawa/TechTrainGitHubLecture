@@ -1,1 +1,1 @@
-// Zustand stores barrel exports
+// Barrel export for Zustand stores

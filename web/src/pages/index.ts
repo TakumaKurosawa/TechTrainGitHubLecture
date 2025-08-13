@@ -1,3 +1,3 @@
-// Page components barrel exports
+// Barrel export for all pages
 export * from './member';
 export * from './manager';

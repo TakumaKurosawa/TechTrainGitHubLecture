@@ -1,1 +1,1 @@
-// TypeScript type definitions barrel exports
+// Barrel export for TypeScript type definitions

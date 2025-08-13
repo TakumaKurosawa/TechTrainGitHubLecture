@@ -1,1 +1,1 @@
-// Layout components barrel exports
+// Barrel export for layout components

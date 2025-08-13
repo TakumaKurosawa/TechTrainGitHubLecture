@@ -1,1 +1,1 @@
-// Global styles barrel exports
+// Barrel export for global styles
