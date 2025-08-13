@@ -13,8 +13,8 @@ format: ## webコードフォーマット ## make format
 	cd web && bun run format
 
 lint: ## webリント実行 ## make lint
-	@echo "🔍 Running web lint with Biome..."
-	cd web && bun run lint
+	@echo "🔍 Running web check with Biome..."
+	cd web && bun run check
 
 up: ## web開発サーバー起動 ## make up
 	@echo "🚀 Starting web development server..."
