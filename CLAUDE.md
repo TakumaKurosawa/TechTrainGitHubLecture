@@ -509,10 +509,6 @@ const Component = styled.div<{ $isActive: boolean }>`
 # スタイルが適用されない場合
 # → ビルドツールの設定確認
 # vite.config.ts で styled-components の設定追加を検討
-
-# 開発時にコンポーネント名が表示されない
-# → babel plugin の設定確認
-# package.json の "babel" セクションまたは .babelrc で設定
 ```
 
 #### UI 品質向上のためのチェックリスト
