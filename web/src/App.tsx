@@ -1,18 +1,14 @@
-import { AnimatePresence } from 'framer-motion';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { About, FormDemo, Home } from './pages';
+import type React from 'react';
+import { ThemeProvider } from 'styled-components';
+import ThemeDemoPage from './pages/ThemeDemoPage';
+import { GlobalStyle, theme } from './styles';
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <Router>
-      <AnimatePresence mode="wait">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/form" element={<FormDemo />} />
-        </Routes>
-      </AnimatePresence>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <ThemeDemoPage />
+    </ThemeProvider>
   );
 };
 
