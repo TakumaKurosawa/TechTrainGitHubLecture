@@ -9,6 +9,9 @@ on:
 
 jobs:
   assign-author:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Assign pull request author

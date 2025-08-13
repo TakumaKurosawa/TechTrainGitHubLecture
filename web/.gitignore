@@ -1,0 +1,12 @@
+# Vite-specific logs
+pnpm-debug.log*
+
+# Vite build output
+dist-ssr
+*.local
+
+# Vite-specific environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
