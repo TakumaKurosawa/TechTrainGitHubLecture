@@ -75,15 +75,22 @@ const ColorSwatch = styled.div<{ $color: string }>`
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
     color: ${({ $color }) => {
-      // Simple light/dark color detection for text readability
       const hex = $color.replace('#', '');
       const r = Number.parseInt(hex.substr(0, 2), 16);
       const g = Number.parseInt(hex.substr(2, 2), 16);
       const b = Number.parseInt(hex.substr(4, 2), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      return brightness > 128 ? '#000' : '#fff';
+      // On light swatches, use white text over a dark overlay; on dark swatches, use black text over a light overlay
+      return brightness > 160 ? '#fff' : '#000';
     }};
-    background: rgba(255, 255, 255, 0.8);
+    background: ${({ $color }) => {
+      const hex = $color.replace('#', '');
+      const r = Number.parseInt(hex.substr(0, 2), 16);
+      const g = Number.parseInt(hex.substr(2, 2), 16);
+      const b = Number.parseInt(hex.substr(4, 2), 16);
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+      return brightness > 160 ? 'rgba(0, 0, 0, 0.45)' : 'rgba(255, 255, 255, 0.85)';
+    }};
     padding: ${({ theme }) => theme.spacing[1]} ${({ theme }) => theme.spacing[2]};
     border-radius: ${({ theme }) => theme.borderRadius.base};
     backdrop-filter: blur(4px);
