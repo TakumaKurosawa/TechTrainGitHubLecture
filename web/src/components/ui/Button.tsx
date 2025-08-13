@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import type React from 'react';
+import type { HTMLMotionProps } from 'framer-motion';
+import React from 'react';
 import styled from 'styled-components';
 
 type ButtonVariant =
@@ -12,14 +13,12 @@ type ButtonVariant =
   | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
-interface ButtonProps {
+type ButtonBaseProps = Omit<HTMLMotionProps<'button'>, 'ref'>;
+
+interface ButtonProps extends ButtonBaseProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  disabled?: boolean;
-  children: React.ReactNode;
-  onClick?: () => void;
-  type?: 'button' | 'submit' | 'reset';
-  className?: string;
+  children?: React.ReactNode;
 }
 
 const StyledButton = styled(motion.button)<{
@@ -206,36 +205,54 @@ const StyledButton = styled(motion.button)<{
   }}
 `;
 
-const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  children,
-  onClick,
-  type = 'button',
-  className,
-}) => {
-  return (
-    <StyledButton
-      $variant={variant}
-      $size={size}
-      $disabled={disabled}
-      disabled={disabled}
-      onClick={onClick}
-      type={type}
-      className={className}
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.2,
-        ease: 'easeOut',
-      }}
-    >
-      {children}
-    </StyledButton>
-  );
-};
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'primary',
+      size = 'md',
+      disabled = false,
+      children,
+      onClick,
+      type = 'button',
+      className,
+      whileHover,
+      whileTap,
+      initial,
+      animate,
+      transition,
+      ...rest
+    },
+    ref
+  ) => {
+    const defaultWhileHover = whileHover ?? { scale: disabled ? 1 : 1.02 };
+    const defaultWhileTap = whileTap ?? { scale: disabled ? 1 : 0.98 };
+    const defaultInitial = initial ?? { opacity: 0, y: 10 };
+    const defaultAnimate = animate ?? { opacity: 1, y: 0 };
+    const defaultTransition = transition ?? {
+      duration: 0.2,
+      ease: 'easeOut',
+    };
+    return (
+      <StyledButton
+        ref={ref}
+        $variant={variant}
+        $size={size}
+        $disabled={disabled}
+        disabled={disabled}
+        onClick={onClick}
+        type={type}
+        className={className}
+        whileHover={defaultWhileHover}
+        whileTap={defaultWhileTap}
+        initial={defaultInitial}
+        animate={defaultAnimate}
+        transition={defaultTransition}
+        {...rest}
+      >
+        {children}
+      </StyledButton>
+    );
+  }
+);
 
 export default Button;

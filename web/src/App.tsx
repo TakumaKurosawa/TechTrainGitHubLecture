@@ -1,14 +1,14 @@
 import type React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { GlobalStyle, theme } from './styles';
 import { RouterLayout } from './components';
 import {
-  TopPage,
-  ReviewsListPage,
-  ReviewDetailPage,
   NewReviewPage,
+  ReviewDetailPage,
+  ReviewsListPage,
+  TopPage,
 } from './pages';
+import { GlobalStyle, theme } from './styles';
 
 const App: React.FC = () => {
   return (

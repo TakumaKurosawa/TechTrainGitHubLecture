@@ -1,9 +1,16 @@
-import type React from 'react';
 import { motion } from 'framer-motion';
-import { useParams, useNavigate } from 'react-router-dom';
+import {
+  ArrowLeft,
+  Calendar,
+  Heart,
+  MessageCircle,
+  Star,
+  User,
+} from 'lucide-react';
+import type React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { ArrowLeft, Star, MessageCircle, Calendar, User, Heart } from 'lucide-react';
-import { Button, Card } from '../components';
+import { Button } from '../components';
 
 const Container = styled(motion.div)`
   min-height: 100vh;
@@ -201,25 +208,36 @@ const ReviewDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const reviewId = id ? parseInt(id, 10) : null;
-  const review = reviewId ? mockReviews[reviewId as keyof typeof mockReviews] : null;
+  const reviewId = id ? Number.parseInt(id, 10) : null;
+  const review = reviewId
+    ? mockReviews[reviewId as keyof typeof mockReviews]
+    : null;
 
   const renderStars = (rating: number) => {
-    const stars = [];
+    const stars = [] as React.ReactNode[];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
 
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star key={i} size={18} fill="currentColor" />);
+    for (let i = 1; i <= fullStars; i++) {
+      stars.push(<Star key={`full-${i}`} size={18} fill="currentColor" />);
     }
 
     if (hasHalfStar) {
-      stars.push(<Star key="half" size={18} fill="currentColor" style={{ opacity: 0.5 }} />);
+      stars.push(
+        <Star
+          key="half"
+          size={18}
+          fill="currentColor"
+          style={{ opacity: 0.5 }}
+        />
+      );
     }
 
     const remainingStars = 5 - Math.ceil(rating);
-    for (let i = 0; i < remainingStars; i++) {
-      stars.push(<Star key={`empty-${i}`} size={18} style={{ opacity: 0.3 }} />);
+    for (let i = 1; i <= remainingStars; i++) {
+      stars.push(
+        <Star key={`empty-${i}`} size={18} style={{ opacity: 0.3 }} />
+      );
     }
 
     return stars;
@@ -239,10 +257,7 @@ const ReviewDetailPage: React.FC = () => {
           <NotFoundDescription>
             指定されたレビューは存在しないか、削除された可能性があります。
           </NotFoundDescription>
-          <Button
-            $variant="primary"
-            onClick={() => navigate('/reviews')}
-          >
+          <Button variant="primary" onClick={() => navigate('/reviews')}>
             レビュー一覧に戻る
           </Button>
         </NotFound>
@@ -260,7 +275,7 @@ const ReviewDetailPage: React.FC = () => {
     >
       <Header>
         <BackButton
-          $variant="ghost"
+          variant="ghost"
           onClick={() => navigate('/reviews')}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -312,8 +327,8 @@ const ReviewDetailPage: React.FC = () => {
         transition={{ delay: 0.4, duration: 0.6 }}
       >
         <Description>
-          {review.description.split('\n').map((paragraph, index) => (
-            <p key={index} style={{ marginBottom: '1rem' }}>
+          {review.description.split('\n').map((paragraph) => (
+            <p key={paragraph} style={{ marginBottom: '1rem' }}>
               {paragraph}
             </p>
           ))}
@@ -324,8 +339,8 @@ const ReviewDetailPage: React.FC = () => {
             <SectionTitle>主なポイント</SectionTitle>
             <SectionContent>
               <ul style={{ paddingLeft: '1.5rem' }}>
-                {review.keyTakeaways.map((takeaway, index) => (
-                  <li key={index} style={{ marginBottom: '0.5rem' }}>
+                {review.keyTakeaways.map((takeaway) => (
+                  <li key={takeaway} style={{ marginBottom: '0.5rem' }}>
                     {takeaway}
                   </li>
                 ))}
@@ -341,7 +356,7 @@ const ReviewDetailPage: React.FC = () => {
         transition={{ delay: 0.6, duration: 0.6 }}
       >
         <Button
-          $variant="primary"
+          variant="primary"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -349,7 +364,7 @@ const ReviewDetailPage: React.FC = () => {
           いいね
         </Button>
         <Button
-          $variant="secondary"
+          variant="secondary"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -357,7 +372,7 @@ const ReviewDetailPage: React.FC = () => {
           コメント
         </Button>
         <Button
-          $variant="ghost"
+          variant="ghost"
           onClick={() => navigate('/reviews')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -1,11 +1,11 @@
-import type React from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { ArrowLeft, Save, Star } from 'lucide-react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { z } from 'zod';
 import { Button, Card } from '../components';
 
 const Container = styled(motion.div)`
@@ -202,10 +202,10 @@ const NewReviewPage: React.FC = () => {
     try {
       // 実際のアプリでは API にデータを送信
       console.log('レビューデータ:', data);
-      
+
       // 送信中のシミュレーション
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      
+
       // 成功後に一覧ページに遷移
       navigate('/reviews');
     } catch (error) {
@@ -248,7 +248,7 @@ const NewReviewPage: React.FC = () => {
     >
       <Header>
         <BackButton
-          $variant="ghost"
+          variant="ghost"
           onClick={() => navigate('/reviews')}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -299,13 +299,17 @@ const NewReviewPage: React.FC = () => {
             placeholder="レビューの詳細な説明を入力してください。学んだこと、改善点、おすすめのポイントなどを含めてください。"
             {...register('description')}
           />
-          {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
+          {errors.description && (
+            <ErrorMessage>{errors.description.message}</ErrorMessage>
+          )}
         </FormGroup>
 
         <RatingSection>
           <Label>評価 *</Label>
           <RatingStars>{renderStars()}</RatingStars>
-          {errors.rating && <ErrorMessage>{errors.rating.message}</ErrorMessage>}
+          {errors.rating && (
+            <ErrorMessage>{errors.rating.message}</ErrorMessage>
+          )}
         </RatingSection>
 
         <FormGroup>
@@ -321,14 +325,14 @@ const NewReviewPage: React.FC = () => {
         <FormActions>
           <Button
             type="button"
-            $variant="ghost"
+            variant="ghost"
             onClick={() => navigate('/reviews')}
           >
             キャンセル
           </Button>
           <Button
             type="submit"
-            $variant="primary"
+            variant="primary"
             disabled={isSubmitting}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -351,12 +355,21 @@ const NewReviewPage: React.FC = () => {
             <h4 style={{ marginBottom: '1rem', fontSize: '1.25rem' }}>
               {watchedValues.title}
             </h4>
-            <p style={{ whiteSpace: 'pre-wrap' }}>{watchedValues.description}</p>
+            <p style={{ whiteSpace: 'pre-wrap' }}>
+              {watchedValues.description}
+            </p>
             {rating > 0 && (
-              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  marginTop: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                }}
+              >
                 <span>評価:</span>
-                {Array.from({ length: rating }, (_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
+                {[1, 2, 3, 4, 5].slice(0, rating).map((n) => (
+                  <Star key={`preview-${n}`} size={16} fill="currentColor" />
                 ))}
                 <span>{rating}/5</span>
               </div>

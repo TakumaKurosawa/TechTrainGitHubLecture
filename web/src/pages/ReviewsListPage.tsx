@@ -1,8 +1,8 @@
-import type React from 'react';
 import { motion } from 'framer-motion';
+import { Calendar, MessageCircle, Plus, Star } from 'lucide-react';
+import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Plus, Star, MessageCircle, Calendar } from 'lucide-react';
 import { Button, Card } from '../components';
 
 const Container = styled(motion.div)`
@@ -119,7 +119,8 @@ const mockReviews = [
   {
     id: 1,
     title: 'React Hooks の効果的な使い方',
-    description: 'useEffect や useState を使った効率的な状態管理について詳しく解説します。パフォーマンス最適化のテクニックも含めて説明します。',
+    description:
+      'useEffect や useState を使った効率的な状態管理について詳しく解説します。パフォーマンス最適化のテクニックも含めて説明します。',
     author: '田中太郎',
     rating: 4.5,
     comments: 12,
@@ -128,7 +129,8 @@ const mockReviews = [
   {
     id: 2,
     title: 'TypeScript 型安全性のベストプラクティス',
-    description: 'TypeScript を使用した堅牢なアプリケーション開発のためのガイドライン。ジェネリクスや高度な型の活用方法を説明します。',
+    description:
+      'TypeScript を使用した堅牢なアプリケーション開発のためのガイドライン。ジェネリクスや高度な型の活用方法を説明します。',
     author: '佐藤花子',
     rating: 5.0,
     comments: 8,
@@ -137,7 +139,8 @@ const mockReviews = [
   {
     id: 3,
     title: 'CSS-in-JS による効率的なスタイリング',
-    description: 'styled-components を使用したコンポーネントベースのスタイリング手法。テーマ管理とレスポンシブデザインの実装。',
+    description:
+      'styled-components を使用したコンポーネントベースのスタイリング手法。テーマ管理とレスポンシブデザインの実装。',
     author: '山田次郎',
     rating: 4.2,
     comments: 15,
@@ -146,7 +149,8 @@ const mockReviews = [
   {
     id: 4,
     title: 'React Router v6 移行ガイド',
-    description: 'React Router v6 への移行で変更された API と新機能について。実際のプロジェクトでの移行経験をもとに解説。',
+    description:
+      'React Router v6 への移行で変更された API と新機能について。実際のプロジェクトでの移行経験をもとに解説。',
     author: '鈴木美咲',
     rating: 4.8,
     comments: 7,
@@ -155,7 +159,8 @@ const mockReviews = [
   {
     id: 5,
     title: 'パフォーマンス最適化テクニック',
-    description: 'React アプリケーションのパフォーマンス改善方法。メモ化、遅延ローディング、バンドル最適化について詳しく説明。',
+    description:
+      'React アプリケーションのパフォーマンス改善方法。メモ化、遅延ローディング、バンドル最適化について詳しく説明。',
     author: '高橋健一',
     rating: 4.6,
     comments: 23,
@@ -164,7 +169,8 @@ const mockReviews = [
   {
     id: 6,
     title: 'State Management with Zustand',
-    description: 'Zustand を使用した軽量で効率的な状態管理。Redux との比較と実際の使用例を含めて解説します。',
+    description:
+      'Zustand を使用した軽量で効率的な状態管理。Redux との比較と実際の使用例を含めて解説します。',
     author: '中村あゆみ',
     rating: 4.3,
     comments: 9,
@@ -176,21 +182,30 @@ const ReviewsListPage: React.FC = () => {
   const navigate = useNavigate();
 
   const renderStars = (rating: number) => {
-    const stars = [];
+    const stars = [] as React.ReactNode[];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
 
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(<Star key={i} size={16} fill="currentColor" />);
+    for (let i = 1; i <= fullStars; i++) {
+      stars.push(<Star key={`full-${i}`} size={16} fill="currentColor" />);
     }
 
     if (hasHalfStar) {
-      stars.push(<Star key="half" size={16} fill="currentColor" style={{ opacity: 0.5 }} />);
+      stars.push(
+        <Star
+          key="half"
+          size={16}
+          fill="currentColor"
+          style={{ opacity: 0.5 }}
+        />
+      );
     }
 
     const remainingStars = 5 - Math.ceil(rating);
-    for (let i = 0; i < remainingStars; i++) {
-      stars.push(<Star key={`empty-${i}`} size={16} style={{ opacity: 0.3 }} />);
+    for (let i = 1; i <= remainingStars; i++) {
+      stars.push(
+        <Star key={`empty-${i}`} size={16} style={{ opacity: 0.3 }} />
+      );
     }
 
     return stars;
@@ -211,7 +226,7 @@ const ReviewsListPage: React.FC = () => {
       >
         <Title>レビュー一覧</Title>
         <Button
-          $variant="primary"
+          variant="primary"
           onClick={() => navigate('/reviews/new')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -1,8 +1,8 @@
-import type React from 'react';
 import { motion } from 'framer-motion';
+import { Star, TrendingUp, Users } from 'lucide-react';
+import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Star, Users, TrendingUp } from 'lucide-react';
 import { Button } from '../components';
 
 const Container = styled(motion.div)`
@@ -172,7 +172,7 @@ const TopPage: React.FC = () => {
         transition={{ delay: 1, duration: 0.8 }}
       >
         <Button
-          $variant="primary"
+          variant="primary"
           onClick={() => navigate('/reviews')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -180,7 +180,7 @@ const TopPage: React.FC = () => {
           レビューを見る
         </Button>
         <Button
-          $variant="secondary"
+          variant="secondary"
           onClick={() => navigate('/reviews/new')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
