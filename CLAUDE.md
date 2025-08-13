@@ -76,6 +76,10 @@ make help
 
 ## コーディング規約
 
+### 共通ルール
+
+- 全てのファイルは末尾に改行コード（LF）を 1 つ含める
+
 ### TypeScript
 
 - **厳格な型チェック**: `tsconfig.json` で `strict: true`
