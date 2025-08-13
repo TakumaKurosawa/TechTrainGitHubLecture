@@ -1,7 +1,7 @@
-import React from 'react';
+import type React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { theme, GlobalStyle } from './styles';
 import ThemeDemoPage from './pages/ThemeDemoPage';
+import { GlobalStyle, theme } from './styles';
 
 const App: React.FC = () => {
   return (

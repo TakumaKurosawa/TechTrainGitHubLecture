@@ -1,8 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import type React from 'react';
+import styled from 'styled-components';
 
-type ButtonVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'outline';
+type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {

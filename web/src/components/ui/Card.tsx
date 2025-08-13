@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import type React from 'react';
+import styled from 'styled-components';
 
 type CardVariant = 'default' | 'elevated' | 'outlined';
 type CardPadding = 'sm' | 'md' | 'lg';
@@ -125,16 +125,8 @@ const Card: React.FC<CardProps> = ({
       className={className}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      whileHover={
-        hover || clickable
-          ? { y: -2, scale: 1.02 }
-          : {}
-      }
-      whileTap={
-        clickable
-          ? { scale: 0.98 }
-          : {}
-      }
+      whileHover={hover || clickable ? { y: -2, scale: 1.02 } : {}}
+      whileTap={clickable ? { scale: 0.98 } : {}}
       transition={{
         duration: 0.2,
         ease: 'easeOut',

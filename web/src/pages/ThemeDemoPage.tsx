@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import type React from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
 import { Button, Card } from '../components/ui';
 
 const Container = styled.div`
@@ -76,9 +77,9 @@ const ColorSwatch = styled.div<{ $color: string }>`
     ${({ $color }) => {
       // Compute brightness to switch both text and background for contrast
       const hex = $color.replace('#', '');
-      const r = parseInt(hex.substr(0, 2), 16);
-      const g = parseInt(hex.substr(2, 2), 16);
-      const b = parseInt(hex.substr(4, 2), 16);
+      const r = Number.parseInt(hex.substr(0, 2), 16);
+      const g = Number.parseInt(hex.substr(2, 2), 16);
+      const b = Number.parseInt(hex.substr(4, 2), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
       const isLight = brightness > 128;
       return `
@@ -175,7 +176,8 @@ const ThemeDemoPage: React.FC = () => {
           🎨 Theme System Demo
         </Title>
         <Subtitle>
-          Comprehensive demonstration of our design system including colors, typography, components, and animations.
+          Comprehensive demonstration of our design system including colors,
+          typography, components, and animations.
         </Subtitle>
       </Header>
 
@@ -207,10 +209,14 @@ const ThemeDemoPage: React.FC = () => {
               <h3>Heading 3 - Subsection</h3>
               <h4>Heading 4 - Minor Title</h4>
               <p>
-                This is a paragraph demonstrating our typography system. The Inter font family provides excellent readability and a modern feel. Line heights and spacing are optimized for comfortable reading.
+                This is a paragraph demonstrating our typography system. The
+                Inter font family provides excellent readability and a modern
+                feel. Line heights and spacing are optimized for comfortable
+                reading.
               </p>
               <p>
-                <a href="#demo">This is a link</a> with proper styling and hover effects.
+                <a href="#demo">This is a link</a> with proper styling and hover
+                effects.
               </p>
             </TypographyDemo>
           </Card>
@@ -230,9 +236,15 @@ const ThemeDemoPage: React.FC = () => {
 
           <SectionTitle>Button Sizes</SectionTitle>
           <SizeDemo>
-            <Button size="sm" variant="primary">Small</Button>
-            <Button size="md" variant="primary">Medium</Button>
-            <Button size="lg" variant="primary">Large</Button>
+            <Button size="sm" variant="primary">
+              Small
+            </Button>
+            <Button size="md" variant="primary">
+              Medium
+            </Button>
+            <Button size="lg" variant="primary">
+              Large
+            </Button>
           </SizeDemo>
         </Section>
 
@@ -248,7 +260,12 @@ const ThemeDemoPage: React.FC = () => {
               <h4>Elevated Card</h4>
               <p>This card has enhanced shadow and hover effects.</p>
             </Card>
-            <Card variant="outlined" padding="lg" clickable onClick={() => setCounter(c => c + 1)}>
+            <Card
+              variant="outlined"
+              padding="lg"
+              clickable
+              onClick={() => setCounter((c) => c + 1)}
+            >
               <h4>Outlined Card</h4>
               <p>This card is clickable with outlined styling.</p>
               <p>Clicked: {counter} times</p>
@@ -273,13 +290,9 @@ const ThemeDemoPage: React.FC = () => {
               <StatLabel>Component Sizes</StatLabel>
             </StatsCard>
           </Grid>
-          
+
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <Button 
-              variant="primary" 
-              size="lg" 
-              onClick={() => setCounter(0)}
-            >
+            <Button variant="primary" size="lg" onClick={() => setCounter(0)}>
               Reset Counter
             </Button>
           </div>
