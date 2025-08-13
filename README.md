@@ -1,14 +1,15 @@
 # TechTrainGitHubLecture
 
-2025年8月14日 TechTrain GitHubメンター講義用
+2025 年 8 月 14 日 TechTrain GitHub メンター講義用
 
 ## プロジェクト概要
 
-React + TypeScript + Vite を使用したモックアプリケーションです。AI活用タスク管理システムの実装を通じて、モダンなフロントエンド開発の実践を学びます。
+React + TypeScript + Vite を使用したモックアプリケーションです。
 
 ## 技術スタック
 
 ### フロントエンド
+
 - **フレームワーク**: React 18+ (TypeScript)
 - **ビルドツール**: Vite
 - **状態管理**: Zustand
@@ -19,6 +20,7 @@ React + TypeScript + Vite を使用したモックアプリケーションです
 - **フォーム管理**: React Hook Form + Zod
 
 ### 開発・デプロイ環境
+
 - **パッケージマネージャー**: bun (推奨) or pnpm
 - **フォーマッター・リンター**: Biome
 - **タスクランナー**: Make (Makefile)
@@ -35,13 +37,6 @@ React + TypeScript + Vite を使用したモックアプリケーションです
 ### bun のインストール
 
 ```bash
-# macOS/Linux
-curl -fsSL https://bun.sh/install | bash
-
-# Windows (PowerShell)
-powershell -c "irm bun.sh/install.ps1 | iex"
-
-# または npm経由
 npm install -g bun
 ```
 
@@ -178,11 +173,13 @@ chore:    その他の変更（ビルドプロセス、補助ツールなど）
 ### Vercel へのデプロイ
 
 1. **Vercel CLI のインストール**:
+
 ```bash
 npm install -g vercel
 ```
 
 2. **初回デプロイ**:
+
 ```bash
 # プロダクションビルドの確認
 make build
@@ -205,7 +202,7 @@ vercel
 `vercel.json` で以下を設定済み：
 
 - **SPA ルーティング対応**: すべてのルートを `/index.html` にリライト
-- **キャッシュ制御**: 静的ファイルに 1日のキャッシュを設定
+- **キャッシュ制御**: 静的ファイルに 1 日のキャッシュを設定
 
 ## コード品質管理
 
@@ -259,31 +256,5 @@ make build
 
 - **バンドルサイズ目標**: 500KB 以内 (gzip)
 - **パフォーマンス指標**:
-  - First Contentful Paint: 1.5秒以内
-  - Largest Contentful Paint: 2.5秒以内
-
-```bash
-# バンドル分析
-make build
-bunx vite-bundle-analyzer web/dist
-```
-
-## ライセンス
-
-このプロジェクトは教育目的で作成されています。詳細は [LICENSE](LICENSE) ファイルを参照してください。
-
-## 貢献
-
-1. Issue を作成して機能追加や改善を提案
-2. Fork してからフィーチャーブランチで作業
-3. PR を作成（テストとリントの通過を確認）
-4. コードレビュー後にマージ
-
-## サポート
-
-質問や問題がある場合は、GitHub Issues でお気軽にお聞かせください。
-
----
-
-**開発チーム**: TechTrain GitHub 講義参加者  
-**更新日**: 2025年8月13日
+  - First Contentful Paint: 1.5 秒以内
+  - Largest Contentful Paint: 2.5 秒以内
