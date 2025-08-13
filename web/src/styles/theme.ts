@@ -42,6 +42,9 @@ export const theme = {
       medium: '#D1D5DB',
       dark: '#9CA3AF',
     },
+
+    // Surface (card/panel background)
+    surface: '#FFFFFF',
   },
 
   typography: {
