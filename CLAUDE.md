@@ -288,21 +288,7 @@ const StaticCard = styled.div`
 
 ### デバッグ・開発体験向上
 
-#### 1. **開発時のコンポーネント名表示**
-
-```typescript
-// .babelrc または babel.config.js
-{
-  "plugins": [
-    ["styled-components", {
-      "displayName": true,
-      "fileName": false
-    }]
-  ]
-}
-```
-
-#### 2. **TypeScript 統合**
+#### **TypeScript 統合**
 
 ```typescript
 // styled-components の型拡張
