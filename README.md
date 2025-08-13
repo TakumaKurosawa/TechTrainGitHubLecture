@@ -1,0 +1,2 @@
+# TechTrainGitHubLecture
+2025年8月14日 TechTrain GitHubメンター講義用
