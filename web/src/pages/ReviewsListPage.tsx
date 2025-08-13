@@ -12,7 +12,7 @@ const Container = styled(motion.div)`
 
 const Header = styled.div`
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
 `;
@@ -175,7 +175,12 @@ const ReviewsListPage: React.FC = () => {
         </AddButton>
       </Header>
 
-      <ReviewGrid>
+      <ReviewGrid
+        as={motion.div}
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
         {mockReviews.map((review) => (
           <ReviewCard
             key={review.id}

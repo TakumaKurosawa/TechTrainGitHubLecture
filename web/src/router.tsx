@@ -1,11 +1,23 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { TopPage, ReviewsListPage, ReviewDetailPage, NewReviewPage } from './pages';
+import { Home, About, FormDemo, TopPage, ReviewsListPage, ReviewDetailPage, NewReviewPage } from './pages';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <Home />
+  },
+  {
+    path: '/about',
+    element: <About />
+  },
+  {
+    path: '/form',
+    element: <FormDemo />
+  },
+  {
+    path: '/app',
     element: <TopPage />
   },
   {
