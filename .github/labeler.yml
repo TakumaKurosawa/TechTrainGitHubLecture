@@ -1,0 +1,28 @@
+"actions":
+  - changed-files:
+      - any-glob-to-any-file: ".github/**/*"
+
+"documentation":
+  - changed-files:
+      - any-glob-to-any-file: "CODEOWNERS"
+      - any-glob-to-any-file: "**/*.md"
+      - any-glob-to-any-file: "docs/**/*"
+
+"area/build":
+  - changed-files:
+      - any-glob-to-any-file: "Makefile"
+      - any-glob-to-any-file: "**/*.sh"
+      - any-glob-to-any-file: "tool/**/*"
+      - any-glob-to-any-file: "local/**/*"
+
+"area/server":
+  - changed-files:
+      - any-glob-to-any-file: "server/**/*"
+
+"area/infra":
+  - changed-files:
+      - any-glob-to-any-file: "infra/**/*"
+
+"area/web":
+  - changed-files:
+      - any-glob-to-any-file: "web/**/*"
