@@ -8,7 +8,8 @@ type ButtonVariant =
   | 'success'
   | 'warning'
   | 'danger'
-  | 'outline';
+  | 'outline'
+  | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
@@ -172,6 +173,22 @@ const StyledButton = styled(motion.button)<{
           &:hover:not(:disabled) {
             background-color: ${theme.colors.primary};
             color: ${theme.colors.text.inverse};
+            transform: translateY(-1px);
+          }
+
+          &:active:not(:disabled) {
+            transform: translateY(0);
+          }
+        `;
+      case 'ghost':
+        return `
+          background-color: transparent;
+          color: ${theme.colors.text.secondary};
+          border-color: transparent;
+
+          &:hover:not(:disabled) {
+            background-color: ${theme.colors.surface};
+            color: ${theme.colors.text.primary};
             transform: translateY(-1px);
           }
 
