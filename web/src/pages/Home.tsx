@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Home as HomeIcon, Settings, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Home as HomeIcon, Users, Settings } from 'lucide-react';
+import styled from 'styled-components';
 import { useAppStore } from '../store';
 
 const Container = styled.div`
@@ -113,7 +113,10 @@ const Home: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <Title>Welcome to React Demo</Title>
-        <Subtitle>Hello {user}! This app demonstrates all required dependencies.</Subtitle>
+        <Subtitle>
+          Hello {user}! This app demonstrates all required dependencies.
+        </Subtitle>
+
         
         <Counter>
           <CounterTitle>Zustand Counter</CounterTitle>

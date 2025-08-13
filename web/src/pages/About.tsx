@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -76,9 +76,18 @@ const BackButton = styled(Link)`
 `;
 
 const dependencies = [
-  { name: 'React 18+', desc: 'Modern React with hooks and concurrent features' },
-  { name: 'TypeScript', desc: 'Static type checking for better development experience' },
-  { name: 'Styled Components', desc: 'CSS-in-JS library for component styling' },
+  {
+    name: 'React 18+',
+    desc: 'Modern React with hooks and concurrent features',
+  },
+  {
+    name: 'TypeScript',
+    desc: 'Static type checking for better development experience',
+  },
+  {
+    name: 'Styled Components',
+    desc: 'CSS-in-JS library for component styling',
+  },
   { name: 'Framer Motion', desc: 'Animation library for smooth interactions' },
   { name: 'React Router', desc: 'Declarative routing for React applications' },
   { name: 'Zustand', desc: 'Lightweight state management solution' },
@@ -97,9 +106,10 @@ const About: React.FC = () => {
       >
         <Title>About This Demo</Title>
         <Subtitle>
-          This application demonstrates the integration of all required dependencies
-          for modern React development.
+          This application demonstrates the integration of all required
+          dependencies for modern React development.
         </Subtitle>
+
         
         <DependencyList>
           {dependencies.map((dep, index) => (

@@ -1,9 +1,9 @@
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { User, Mail } from 'lucide-react';
+import { Mail, User } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
+import { z } from 'zod';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -49,15 +49,15 @@ const InputWrapper = styled.div`
 const Input = styled.input<{ $hasError: boolean }>`
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1px solid ${props => props.$hasError ? '#ef4444' : '#d1d5db'};
+  border: 1px solid ${(props) => (props.$hasError ? '#ef4444' : '#d1d5db')};
   border-radius: 8px;
   font-size: 0.875rem;
   transition: border-color 0.2s;
   
   &:focus {
     outline: none;
-    border-color: ${props => props.$hasError ? '#ef4444' : '#3b82f6'};
-    box-shadow: 0 0 0 3px ${props => props.$hasError ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)'};
+    border-color: ${(props) => (props.$hasError ? '#ef4444' : '#3b82f6')};
+    box-shadow: 0 0 0 3px ${(props) => (props.$hasError ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)')};
   }
 `;
 
@@ -107,9 +107,9 @@ const SampleForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Form submitted:', data);
-    alert(`Hello ${data.name}! Form submitted successfully.`);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Form submitted successfully
+    // In a real app, you would handle the response here
   };
 
   return (

@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { Home, About, FormDemo } from './pages';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { About, FormDemo, Home } from './pages';
 
 const App = () => {
   return (
