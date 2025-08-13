@@ -110,7 +110,6 @@ const About: React.FC = () => {
           dependencies for modern React development.
         </Subtitle>
 
-        
         <DependencyList>
           {dependencies.map((dep, index) => (
             <DependencyItem

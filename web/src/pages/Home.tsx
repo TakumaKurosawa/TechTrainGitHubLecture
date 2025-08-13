@@ -117,7 +117,6 @@ const Home: React.FC = () => {
           Hello {user}! This app demonstrates all required dependencies.
         </Subtitle>
 
-        
         <Counter>
           <CounterTitle>Zustand Counter</CounterTitle>
           <CounterValue>{count}</CounterValue>
