@@ -1,0 +1,21 @@
+{
+  "name": "techtraingithublecture",
+  "version": "1.0.0",
+  "description": "TypeScript type definitions for internship review system",
+  "main": "web/src/types/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "setup": "npm install",
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "keywords": [
+    "typescript",
+    "types",
+    "internship",
+    "review"
+  ]
+}
