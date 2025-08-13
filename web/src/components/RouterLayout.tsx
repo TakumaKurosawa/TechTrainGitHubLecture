@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type React from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -31,22 +31,20 @@ const RouterLayout: React.FC<RouterLayoutProps> = ({ children }) => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageVariants}
-        transition={pageTransition}
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-        }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={location.pathname}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+      transition={pageTransition}
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+      }}
+    >
+      {children}
+    </motion.div>
   );
 };
 
