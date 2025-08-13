@@ -21,10 +21,8 @@ const Title = styled(motion.h1)`
   font-size: 3.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, #fff, #e2e8f0);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -34,7 +32,7 @@ const Title = styled(motion.h1)`
 const Subtitle = styled(motion.p)`
   font-size: 1.25rem;
   margin-bottom: 3rem;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.95);
   max-width: 600px;
 `;
 
@@ -70,10 +68,11 @@ const FeatureTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: #ffffff;
 `;
 
 const FeatureDescription = styled.p`
-  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
 `;
 
