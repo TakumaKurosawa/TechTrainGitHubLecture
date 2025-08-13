@@ -15,8 +15,8 @@ export interface User {
   avatar?: string;
 }
 
-export interface RouteAnimationVariants {
-  initial: Record<string, unknown>;
-  animate: Record<string, unknown>;
-  exit: Record<string, unknown>;
+export interface FormData {
+  title: string;
+  content: string;
+  rating: number;
 }

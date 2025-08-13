@@ -1,51 +1,59 @@
-import type React from 'react';
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { pageVariants, pageTransition } from '@/utils/animations';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { ArrowLeft, Star, Send } from "lucide-react";
+import { FormData } from "../types";
+import { pageVariants, pageTransition } from "../utils/animations";
 
 const Container = styled(motion.div)`
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
 `;
 
-const BackLink = styled(Link)`
+const BackButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-primary);
-  font-weight: 500;
+  color: #6b7280;
   text-decoration: none;
+  font-weight: 500;
   margin-bottom: 2rem;
-  transition: color 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    color: #2563eb;
+    background-color: #f3f4f6;
+    color: #374151;
   }
 `;
 
-const FormCard = styled.div`
-  background: white;
+const FormContainer = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-neutral-200);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 `;
 
 const FormHeader = styled.div`
   margin-bottom: 2rem;
+  text-align: center;
 `;
 
 const FormTitle = styled.h1`
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--color-neutral-900);
+  color: #111827;
   margin-bottom: 0.5rem;
 `;
 
-const FormSubtitle = styled.p`
-  color: var(--color-neutral-600);
+const FormDescription = styled.p`
+  color: #6b7280;
   font-size: 1rem;
 `;
 
@@ -61,46 +69,51 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-neutral-700);
+  color: #374151;
   margin-bottom: 0.5rem;
-  font-size: 0.95rem;
 `;
 
-const Input = styled.input`
-  padding: 0.75rem;
-  border: 2px solid var(--color-neutral-200);
+const Input = styled.input<{ $hasError?: boolean }>`
+  padding: 0.75rem 1rem;
+  border: 1px solid ${(props) => (props.$hasError ? "#ef4444" : "#d1d5db")};
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: ${(props) => (props.$hasError ? "#ef4444" : "#3b82f6")};
+    box-shadow: 0 0 0 3px ${(props) => 
+      props.$hasError ? "rgba(239, 68, 68, 0.1)" : "rgba(59, 130, 246, 0.1)"};
   }
 
   &::placeholder {
-    color: var(--color-neutral-400);
+    color: #9ca3af;
   }
 `;
 
-const TextArea = styled.textarea`
-  padding: 0.75rem;
-  border: 2px solid var(--color-neutral-200);
+const TextArea = styled.textarea<{ $hasError?: boolean }>`
+  padding: 0.75rem 1rem;
+  border: 1px solid ${(props) => (props.$hasError ? "#ef4444" : "#d1d5db")};
   border-radius: 8px;
   font-size: 1rem;
-  resize: vertical;
   min-height: 120px;
+  resize: vertical;
   font-family: inherit;
-  transition: border-color 0.2s ease;
+  line-height: 1.5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: var(--color-primary);
+    border-color: ${(props) => (props.$hasError ? "#ef4444" : "#3b82f6")};
+    box-shadow: 0 0 0 3px ${(props) => 
+      props.$hasError ? "rgba(239, 68, 68, 0.1)" : "rgba(59, 130, 246, 0.1)"};
   }
 
   &::placeholder {
-    color: var(--color-neutral-400);
+    color: #9ca3af;
   }
 `;
 
@@ -109,135 +122,147 @@ const RatingGroup = styled.div`
   flex-direction: column;
 `;
 
-const RatingButtons = styled.div`
+const RatingContainer = styled.div`
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-`;
-
-const RatingButton = styled.button<{ $isSelected: boolean }>`
-  padding: 0.75rem;
-  border: 2px solid ${props => props.$isSelected ? 'var(--color-primary)' : 'var(--color-neutral-200)'};
-  background-color: ${props => props.$isSelected ? 'var(--color-primary)' : 'white'};
-  color: ${props => props.$isSelected ? 'white' : 'var(--color-neutral-700)'};
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 60px;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
-const FormActions = styled.div`
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-neutral-200);
-`;
-
-const CancelButton = styled(Link)`
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--color-neutral-300);
-  background-color: white;
-  color: var(--color-neutral-700);
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  display: inline-flex;
   align-items: center;
-
-  &:hover {
-    border-color: var(--color-neutral-400);
-    transform: translateY(-1px);
-  }
+  gap: 0.5rem;
 `;
 
-const SubmitButton = styled.button<{ $isLoading?: boolean }>`
-  padding: 0.75rem 1.5rem;
-  background-color: var(--color-primary);
-  color: white;
+const StarButton = styled.button<{ $filled: boolean }>`
+  background: none;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: ${props => props.$isLoading ? 'not-allowed' : 'pointer'};
-  opacity: ${props => props.$isLoading ? 0.7 : 1};
-  transition: all 0.2s ease;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: transform 0.2s ease;
+  color: ${(props) => (props.$filled ? "#f59e0b" : "#d1d5db")};
 
   &:hover {
-    background-color: ${props => props.$isLoading ? 'var(--color-primary)' : '#2563eb'};
-    transform: ${props => props.$isLoading ? 'none' : 'translateY(-1px)'};
+    transform: scale(1.1);
   }
 
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 `;
 
-const CharCount = styled.span`
-  font-size: 0.8rem;
-  color: var(--color-neutral-500);
-  text-align: right;
+const RatingText = styled.span`
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-left: 0.5rem;
+`;
+
+const ErrorMessage = styled.span`
+  color: #ef4444;
+  font-size: 0.875rem;
   margin-top: 0.25rem;
 `;
 
+const SubmitButton = styled(motion.button)<{ $disabled?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: ${(props) => 
+    props.$disabled ? "#9ca3af" : "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)"};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+  }
+
+  &:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+`;
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(1, "タイトルは必須です")
+    .min(5, "タイトルは5文字以上で入力してください")
+    .max(100, "タイトルは100文字以内で入力してください"),
+  content: z
+    .string()
+    .min(1, "内容は必須です")
+    .min(10, "内容は10文字以上で入力してください")
+    .max(1000, "内容は1000文字以内で入力してください"),
+  rating: z
+    .number()
+    .min(1, "評価を選択してください")
+    .max(5, "評価は5以下で入力してください"),
+});
+
 const NewReviewPage: React.FC = () => {
   const navigate = useNavigate();
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    rating: 0,
-    author: '',
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: "",
+      content: "",
+      rating: 0,
+    },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleRatingClick = (value: number) => {
+    setRating(value);
+    setValue("rating", value);
   };
 
-  const handleRatingChange = (rating: number) => {
-    setFormData(prev => ({
-      ...prev,
-      rating,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.title || !formData.content || !formData.author || formData.rating === 0) {
-      alert('すべての項目を入力してください。');
-      return;
-    }
-
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // In a real app, you would submit to an API here
-    console.log('Submitting review:', formData);
-    
-    alert('レビューが投稿されました！');
-    navigate('/reviews');
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // In a real app, you would make an API call here
+      console.log("Submitting review:", data);
+      
+      // Navigate to reviews list after successful submission
+      navigate("/reviews");
+    } catch (error) {
+      console.error("Failed to submit review:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const isFormValid = formData.title && formData.content && formData.author && formData.rating > 0;
+  const getRatingText = (rating: number) => {
+    switch (rating) {
+      case 1:
+        return "とても不満";
+      case 2:
+        return "不満";
+      case 3:
+        return "普通";
+      case 4:
+        return "満足";
+      case 5:
+        return "とても満足";
+      default:
+        return "評価を選択してください";
+    }
+  };
 
   return (
     <Container
@@ -247,91 +272,86 @@ const NewReviewPage: React.FC = () => {
       exit="exit"
       transition={pageTransition}
     >
-      <BackLink to="/reviews">
-        ← レビュー一覧に戻る
-      </BackLink>
+      <BackButton to="/reviews">
+        <ArrowLeft size={20} />
+        レビュー一覧に戻る
+      </BackButton>
 
-      <FormCard>
+      <FormContainer>
         <FormHeader>
           <FormTitle>新しいレビューを投稿</FormTitle>
-          <FormSubtitle>あなたの体験をシェアしてください</FormSubtitle>
+          <FormDescription>
+            あなたの体験を他の人と共有しましょう
+          </FormDescription>
         </FormHeader>
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <FormGroup>
-            <Label htmlFor="title">タイトル *</Label>
+            <Label htmlFor="title">タイトル*</Label>
             <Input
-              type="text"
               id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              placeholder="レビューのタイトルを入力してください"
-              maxLength={100}
-              required
-            />
-            <CharCount>{formData.title.length}/100</CharCount>
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="author">お名前 *</Label>
-            <Input
               type="text"
-              id="author"
-              name="author"
-              value={formData.author}
-              onChange={handleInputChange}
-              placeholder="お名前を入力してください"
-              maxLength={50}
-              required
+              placeholder="レビューのタイトルを入力してください"
+              $hasError={!!errors.title}
+              {...register("title")}
             />
-            <CharCount>{formData.author.length}/50</CharCount>
+            {errors.title && (
+              <ErrorMessage>{errors.title.message}</ErrorMessage>
+            )}
           </FormGroup>
 
           <RatingGroup>
-            <Label>評価 *</Label>
-            <RatingButtons>
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <RatingButton
-                  key={rating}
-                  type="button"
-                  $isSelected={formData.rating === rating}
-                  onClick={() => handleRatingChange(rating)}
-                >
-                  {rating}★
-                </RatingButton>
-              ))}
-            </RatingButtons>
+            <Label>評価*</Label>
+            <RatingContainer>
+              {Array.from({ length: 5 }, (_, index) => {
+                const value = index + 1;
+                const filled = value <= (hoveredRating || rating);
+                
+                return (
+                  <StarButton
+                    key={value}
+                    type="button"
+                    $filled={filled}
+                    onClick={() => handleRatingClick(value)}
+                    onMouseEnter={() => setHoveredRating(value)}
+                    onMouseLeave={() => setHoveredRating(0)}
+                    aria-label={`${value}つ星`}
+                  >
+                    <Star size={24} fill={filled ? "currentColor" : "none"} />
+                  </StarButton>
+                );
+              })}
+              <RatingText>{getRatingText(hoveredRating || rating)}</RatingText>
+            </RatingContainer>
+            {errors.rating && (
+              <ErrorMessage>{errors.rating.message}</ErrorMessage>
+            )}
           </RatingGroup>
 
           <FormGroup>
-            <Label htmlFor="content">レビュー内容 *</Label>
+            <Label htmlFor="content">レビュー内容*</Label>
             <TextArea
               id="content"
-              name="content"
-              value={formData.content}
-              onChange={handleInputChange}
-              placeholder="詳細なレビューを入力してください..."
-              maxLength={1000}
-              required
+              placeholder="あなたの体験や感想を詳しく教えてください"
+              $hasError={!!errors.content}
+              {...register("content")}
             />
-            <CharCount>{formData.content.length}/1000</CharCount>
+            {errors.content && (
+              <ErrorMessage>{errors.content.message}</ErrorMessage>
+            )}
           </FormGroup>
 
-          <FormActions>
-            <CancelButton to="/reviews">
-              キャンセル
-            </CancelButton>
-            <SubmitButton 
-              type="submit" 
-              $isLoading={isSubmitting}
-              disabled={!isFormValid || isSubmitting}
-            >
-              {isSubmitting ? '投稿中...' : 'レビューを投稿'}
-            </SubmitButton>
-          </FormActions>
+          <SubmitButton
+            type="submit"
+            $disabled={isSubmitting}
+            whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+            whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+          >
+            <Send size={20} />
+            {isSubmitting ? "投稿中..." : "レビューを投稿"}
+          </SubmitButton>
         </Form>
-      </FormCard>
+      </FormContainer>
     </Container>
   );
 };

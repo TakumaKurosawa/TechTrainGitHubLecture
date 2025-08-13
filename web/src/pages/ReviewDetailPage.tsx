@@ -1,222 +1,285 @@
-import type React from 'react';
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
-import { pageVariants, pageTransition } from '@/utils/animations';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { ArrowLeft, Star, User, Calendar, Edit, Trash2, Heart } from "lucide-react";
+import { Review } from "../types";
+import { pageVariants, pageTransition } from "../utils/animations";
 
 const Container = styled(motion.div)`
   max-width: 800px;
   margin: 0 auto;
 `;
 
-const BackLink = styled(Link)`
+const BackButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-primary);
-  font-weight: 500;
+  color: #6b7280;
   text-decoration: none;
+  font-weight: 500;
   margin-bottom: 2rem;
-  transition: color 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    color: #2563eb;
+    background-color: #f3f4f6;
+    color: #374151;
   }
 `;
 
-const ReviewCard = styled.div`
-  background: white;
+const ReviewContainer = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-neutral-200);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 `;
 
 const ReviewHeader = styled.div`
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid #e5e7eb;
 `;
 
 const ReviewTitle = styled.h1`
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-neutral-900);
+  color: #111827;
   margin-bottom: 1rem;
-  line-height: 1.3;
+  line-height: 1.2;
 `;
 
 const ReviewMeta = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
+  color: #6b7280;
 `;
 
-const Rating = styled.div`
+const MetaItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 600;
+  font-size: 0.875rem;
 `;
 
-const StarDisplay = styled.span`
-  color: var(--color-warning);
-  font-size: 1.2rem;
-`;
-
-const RatingValue = styled.span`
-  color: var(--color-neutral-700);
-  font-size: 1.1rem;
-`;
-
-const Author = styled.div`
+const RatingContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-neutral-600);
 `;
 
-const AuthorAvatar = styled.div`
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+const StarIcon = styled(Star)<{ $filled: boolean }>`
+  width: 20px;
+  height: 20px;
+  color: ${(props) => (props.$filled ? "#f59e0b" : "#d1d5db")};
+  fill: ${(props) => (props.$filled ? "#f59e0b" : "none")};
+`;
+
+const RatingText = styled.span`
   font-weight: 600;
-  font-size: 0.9rem;
-`;
-
-const DateInfo = styled.span`
-  color: var(--color-neutral-500);
-  font-size: 0.95rem;
+  color: #374151;
 `;
 
 const ReviewContent = styled.div`
-  line-height: 1.8;
-  color: var(--color-neutral-700);
-  font-size: 1.1rem;
+  margin-bottom: 2rem;
+`;
 
-  p {
-    margin-bottom: 1.5rem;
+const ContentText = styled.p`
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #374151;
+  white-space: pre-wrap;
+`;
 
-    &:last-child {
-      margin-bottom: 0;
+const ActionBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const ActionButtons = styled.div`
+  display: flex;
+  gap: 0.75rem;
+`;
+
+const ActionButton = styled.button<{ $variant?: "primary" | "danger" }>`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  ${(props) => {
+    if (props.$variant === "danger") {
+      return `
+        background-color: #fee2e2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+
+        &:hover {
+          background-color: #fecaca;
+          border-color: #f87171;
+        }
+      `;
     }
+    return `
+      background-color: #eff6ff;
+      border: 1px solid #dbeafe;
+      color: #2563eb;
+
+      &:hover {
+        background-color: #dbeafe;
+        border-color: #93c5fd;
+      }
+    `;
+  }}
+`;
+
+const LikeButton = styled.button<{ $liked: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background-color: ${(props) => (props.$liked ? "#fef2f2" : "#f9fafb")};
+  border: 1px solid ${(props) => (props.$liked ? "#fecaca" : "#e5e7eb")};
+  color: ${(props) => (props.$liked ? "#dc2626" : "#6b7280")};
+
+  &:hover {
+    background-color: ${(props) => (props.$liked ? "#fecaca" : "#f3f4f6")};
   }
+`;
+
+const LoadingState = styled.div`
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
 `;
 
 const NotFound = styled.div`
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--color-neutral-500);
-
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--color-neutral-700);
-  }
-
-  p {
-    margin-bottom: 2rem;
-  }
 `;
 
-const NotFoundButton = styled(Link)`
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+const NotFoundTitle = styled.h2`
+  font-size: 1.5rem;
   font-weight: 600;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #2563eb;
-    transform: translateY(-1px);
-  }
+  color: #374151;
+  margin-bottom: 0.5rem;
 `;
 
-// Mock data for demonstration
-const mockReviews: Record<string, {
-  id: string;
-  title: string;
-  content: string;
-  rating: number;
-  author: string;
-  createdAt: Date;
-  updatedAt: Date;
-}> = {
-  '1': {
-    id: '1',
-    title: '素晴らしいサービス体験',
-    content: `このサービスを利用して本当に良かったです。スタッフの対応が丁寧で、期待以上の結果を得ることができました。
+const NotFoundText = styled.p`
+  color: #6b7280;
+  margin-bottom: 2rem;
+`;
 
-最初は少し不安もありましたが、実際に利用してみると、その心配は杞憂でした。特に印象的だったのは、細かな要望にも快く対応してくれたことです。
+// Mock data
+const mockReviews: Review[] = [
+  {
+    id: "1",
+    title: "素晴らしいカフェでの体験",
+    content: `このカフェのコーヒーは本当に素晴らしかった。雰囲気も良く、作業にも最適でした。
 
-料金についても明確で、追加料金などもなく安心して利用できました。また機会があれば、ぜひ再度利用したいと思います。
+スタッフの対応も丁寧で、質問にも親切に答えてくれました。特にエスプレッソの味は格別で、豆の香りがとても良く感じられました。
 
-友人にもおすすめしたいサービスです。`,
+店内のインテリアも洗練されており、長時間滞在しても快適でした。WiFiも安定していて、リモートワークにも最適な環境だと思います。
+
+また訪れたいと思える素敵なお店でした。`,
     rating: 5,
-    author: '田中太郎',
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-15'),
+    author: "田中太郎",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
-  '2': {
-    id: '2',
-    title: '良いが改善の余地あり',
-    content: `全体的には満足していますが、いくつかの点で改善の余地があると思います。
+  {
+    id: "2",
+    title: "映画館での映画鑑賞",
+    content: `最新の映画を観てきました。音響システムが素晴らしく、臨場感がありました。
 
-特に待ち時間に関してですが、予約時間から実際の開始まで30分ほど待たされました。事前に連絡があれば良かったのですが、当日まで分からなかったのは少し残念でした。
+座席も比較的快適で、スクリーンの見やすさも良好でした。ただし、ポップコーンの価格がやや高めに感じました。
 
-サービス自体の品質は高く、スタッフの技術力も申し分ありません。ただ、時間管理の面で改善されれば、より良いサービスになると思います。
+映画の内容自体は期待以上で、音響効果と大画面での体験は家庭では味わえないものでした。
 
-価格に見合った価値は十分にあると思いますので、時間に余裕を持って利用すれば問題ないでしょう。`,
+次回も利用したいと思います。`,
     rating: 4,
-    author: '佐藤花子',
-    createdAt: new Date('2024-01-12'),
-    updatedAt: new Date('2024-01-12'),
+    author: "佐藤花子",
+    createdAt: new Date("2024-01-12"),
+    updatedAt: new Date("2024-01-12"),
   },
-  '3': {
-    id: '3',
-    title: '期待していたほどではなかった',
-    content: `評判を聞いて期待していましたが、実際に使ってみると期待していたほどではありませんでした。
+  {
+    id: "3",
+    title: "レストランでのランチ",
+    content: `友人とランチで訪れました。料理の味は良かったのですが、サービスが少し遅く感じました。
 
-サービス内容自体は悪くないのですが、事前の説明と実際の内容に若干のギャップを感じました。もう少し詳細な説明があれば良かったと思います。
+メニューの種類は豊富で、価格帯も手頃でした。特にパスタは美味しく、ボリュームも適量でした。
 
-スタッフの方は親切でしたが、経験不足を感じる場面もありました。ベテランのスタッフに対応してもらえれば、また違った結果だったかもしれません。
+店内の雰囲気は落ち着いており、会話を楽しむには良い環境だと思います。
 
-価格を考えると、もう少し内容の充実を期待したいところです。`,
+価格帯を考えると妥当な品質だと思います。`,
     rating: 3,
-    author: '山田次郎',
-    createdAt: new Date('2024-01-10'),
-    updatedAt: new Date('2024-01-10'),
+    author: "山田次郎",
+    createdAt: new Date("2024-01-10"),
+    updatedAt: new Date("2024-01-10"),
   },
-};
+];
 
 const ReviewDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const review = id ? mockReviews[id] : null;
+  const [review, setReview] = useState<Review | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [liked, setLiked] = useState(false);
 
-  const formatDate = (date: Date): string => {
-    return date.toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+  useEffect(() => {
+    // Simulate API call
+    setTimeout(() => {
+      const foundReview = mockReviews.find((r) => r.id === id);
+      setReview(foundReview || null);
+      setLoading(false);
+    }, 500);
+  }, [id]);
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <StarIcon key={index} $filled={index < rating} />
+    ));
   };
 
-  const renderStars = (rating: number): string => {
-    return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("ja-JP", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
   };
 
-  const getAuthorInitial = (name: string): string => {
-    return name.charAt(0);
-  };
+  if (loading) {
+    return (
+      <Container
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={pageTransition}
+      >
+        <LoadingState>レビューを読み込んでいます...</LoadingState>
+      </Container>
+    );
+  }
 
   if (!review) {
     return (
@@ -227,16 +290,16 @@ const ReviewDetailPage: React.FC = () => {
         exit="exit"
         transition={pageTransition}
       >
-        <BackLink to="/reviews">
-          ← レビュー一覧に戻る
-        </BackLink>
-        
+        <BackButton to="/reviews">
+          <ArrowLeft size={20} />
+          レビュー一覧に戻る
+        </BackButton>
         <NotFound>
-          <h2>レビューが見つかりません</h2>
-          <p>指定されたレビューは存在しないか、削除された可能性があります。</p>
-          <NotFoundButton to="/reviews">
-            レビュー一覧に戻る
-          </NotFoundButton>
+          <NotFoundTitle>レビューが見つかりません</NotFoundTitle>
+          <NotFoundText>
+            指定されたレビューは存在しないか、削除された可能性があります。
+          </NotFoundText>
+          <Link to="/reviews">レビュー一覧に戻る</Link>
         </NotFound>
       </Container>
     );
@@ -250,39 +313,54 @@ const ReviewDetailPage: React.FC = () => {
       exit="exit"
       transition={pageTransition}
     >
-      <BackLink to="/reviews">
-        ← レビュー一覧に戻る
-      </BackLink>
+      <BackButton to="/reviews">
+        <ArrowLeft size={20} />
+        レビュー一覧に戻る
+      </BackButton>
 
-      <ReviewCard>
+      <ReviewContainer>
         <ReviewHeader>
           <ReviewTitle>{review.title}</ReviewTitle>
-          
           <ReviewMeta>
-            <Rating>
-              <StarDisplay>{renderStars(review.rating)}</StarDisplay>
-              <RatingValue>({review.rating}/5)</RatingValue>
-            </Rating>
-            
-            <Author>
-              <AuthorAvatar>
-                {getAuthorInitial(review.author)}
-              </AuthorAvatar>
-              <span>{review.author}</span>
-            </Author>
-            
-            <DateInfo>
+            <MetaItem>
+              <User size={18} />
+              {review.author}
+            </MetaItem>
+            <MetaItem>
+              <Calendar size={18} />
               {formatDate(review.createdAt)}
-            </DateInfo>
+            </MetaItem>
+            <RatingContainer>
+              {renderStars(review.rating)}
+              <RatingText>{review.rating}/5</RatingText>
+            </RatingContainer>
           </ReviewMeta>
         </ReviewHeader>
 
         <ReviewContent>
-          {review.content.split('\n\n').map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
+          <ContentText>{review.content}</ContentText>
         </ReviewContent>
-      </ReviewCard>
+
+        <ActionBar>
+          <LikeButton
+            $liked={liked}
+            onClick={() => setLiked(!liked)}
+          >
+            <Heart size={18} fill={liked ? "currentColor" : "none"} />
+            {liked ? "いいね済み" : "いいね"}
+          </LikeButton>
+          <ActionButtons>
+            <ActionButton>
+              <Edit size={16} />
+              編集
+            </ActionButton>
+            <ActionButton $variant="danger">
+              <Trash2 size={16} />
+              削除
+            </ActionButton>
+          </ActionButtons>
+        </ActionBar>
+      </ReviewContainer>
     </Container>
   );
 };

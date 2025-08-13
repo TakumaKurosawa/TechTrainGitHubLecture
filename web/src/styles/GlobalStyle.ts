@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -9,27 +9,28 @@ export const GlobalStyle = createGlobalStyle`
 
   html, body {
     height: 100%;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+    line-height: 1.5;
+    color: #111827;
+    background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   #root {
     height: 100%;
-    min-height: 100vh;
-    background-color: #f9fafb;
+    display: flex;
+    flex-direction: column;
   }
 
   a {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
   }
 
   button {
     cursor: pointer;
     border: none;
-    outline: none;
     background: none;
     font-family: inherit;
   }
@@ -38,22 +39,33 @@ export const GlobalStyle = createGlobalStyle`
     font-family: inherit;
   }
 
-  /* Color variables for consistency */
-  :root {
-    --color-primary: #3B82F6;
-    --color-secondary: #6366F1;
-    --color-success: #10B981;
-    --color-warning: #F59E0B;
-    --color-danger: #EF4444;
-    --color-neutral-50: #F9FAFB;
-    --color-neutral-100: #F3F4F6;
-    --color-neutral-200: #E5E7EB;
-    --color-neutral-300: #D1D5DB;
-    --color-neutral-400: #9CA3AF;
-    --color-neutral-500: #6B7280;
-    --color-neutral-600: #4B5563;
-    --color-neutral-700: #374151;
-    --color-neutral-800: #1F2937;
-    --color-neutral-900: #111827;
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  :focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 `;

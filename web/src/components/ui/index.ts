@@ -1,2 +1,1 @@
-// Barrel export for UI components
-// This will be populated as UI components are created
+// UI components will be added here as needed

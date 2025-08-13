@@ -1,15 +1,13 @@
-import type { RouteAnimationVariants } from '@/types';
-
-export const pageVariants: RouteAnimationVariants = {
+export const pageVariants = {
   initial: { opacity: 0, x: 20 },
   animate: { opacity: 1, x: 0 },
   exit: { opacity: 0, x: -20 },
 };
 
 export const pageTransition = {
-  type: 'tween',
+  type: "tween",
+  ease: "anticipate",
   duration: 0.3,
-  ease: 'easeInOut',
 };
 
 export const staggerContainer = {
@@ -20,7 +18,7 @@ export const staggerContainer = {
   },
 };
 
-export const staggerChild = {
+export const staggerItem = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
 };
