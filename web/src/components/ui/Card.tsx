@@ -80,7 +80,7 @@ const StyledCard = styled(motion.div)<{
   `}
 
   /* Focus styles for clickable cards */
-  ${({ $clickable, theme }) =>
+  ${({ $clickable }) =>
     $clickable &&
     `
     &:focus {

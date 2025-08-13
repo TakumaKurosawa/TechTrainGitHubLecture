@@ -74,23 +74,19 @@ const ColorSwatch = styled.div<{ $color: string }>`
     left: ${({ theme }) => theme.spacing[3]};
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-    ${({ $color }) => {
-      // Compute brightness to switch both text and background for contrast
+    color: ${({ $color }) => {
+      // Simple light/dark color detection for text readability
       const hex = $color.replace('#', '');
       const r = Number.parseInt(hex.substr(0, 2), 16);
       const g = Number.parseInt(hex.substr(2, 2), 16);
       const b = Number.parseInt(hex.substr(4, 2), 16);
       const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-      const isLight = brightness > 128;
-      return `
-        color: ${isLight ? '#fff' : '#111'};
-        background: ${isLight ? 'rgba(0, 0, 0, 0.65)' : 'rgba(255, 255, 255, 0.92)'};
-        box-shadow: 0 0 0 1px ${isLight ? 'rgba(255, 255, 255, 0.55)' : 'rgba(0, 0, 0, 0.06)'};
-      `;
-    }}
+      return brightness > 128 ? '#000' : '#fff';
+    }};
+    background: rgba(255, 255, 255, 0.8);
     padding: ${({ theme }) => theme.spacing[1]} ${({ theme }) => theme.spacing[2]};
     border-radius: ${({ theme }) => theme.borderRadius.base};
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
   }
 `;
 
@@ -190,7 +186,7 @@ const ThemeDemoPage: React.FC = () => {
         <Section variants={itemVariants}>
           <SectionTitle>Color Palette</SectionTitle>
           <Grid>
-            {colorPalette.map((color, index) => (
+            {colorPalette.map((color) => (
               <Card key={color.name} padding="md" hover>
                 <ColorSwatch $color={color.color} />
                 <h4 style={{ margin: 0, textAlign: 'center' }}>{color.name}</h4>
