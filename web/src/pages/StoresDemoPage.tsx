@@ -17,13 +17,13 @@ import {
 const Container = styled(motion.div)`
   min-height: 100vh;
   padding: 2rem;
-  background: ${(props) => props.theme.colors.background};
+  background: #F9FAFB;
 `;
 
 const Title = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
-  color: ${(props) => props.theme.colors.text.primary};
+  color: #111827;
   margin-bottom: 2rem;
   text-align: center;
 `;
@@ -43,7 +43,7 @@ const StoreCard = styled(Card)`
 const StoreTitle = styled.h3`
   font-size: 1.25rem;
   font-weight: 600;
-  color: ${(props) => props.theme.colors.text.primary};
+  color: #111827;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -51,7 +51,7 @@ const StoreTitle = styled.h3`
 `;
 
 const StoreContent = styled.div`
-  color: ${(props) => props.theme.colors.text.secondary};
+  color: #6B7280;
   line-height: 1.6;
 `;
 
@@ -67,7 +67,7 @@ const StatLabel = styled.span`
 `;
 
 const StatValue = styled.span`
-  color: ${(props) => props.theme.colors.primary};
+  color: #3B82F6;
   font-weight: 600;
 `;
 
@@ -79,18 +79,18 @@ const ActionButton = styled(Button)`
 const SearchInput = styled.input`
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid ${(props) => props.theme.colors.border};
+  border: 1px solid #E5E7EB;
   border-radius: 4px;
   margin-bottom: 1rem;
   font-size: 0.875rem;
 `;
 
 const NotificationItem = styled.div`
-  background: ${(props) => props.theme.colors.surface};
+  background: #FFFFFF;
   border-radius: 4px;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
-  border-left: 3px solid ${(props) => props.theme.colors.primary};
+  border-left: 3px solid #3B82F6;
 `;
 
 const pageVariants = {
@@ -140,7 +140,7 @@ const StoresDemoPage: React.FC = () => {
 
   const handleAddTask = () => {
     addTask({
-      title: `新しいタスク ${Math.random().toString(36).substr(2, 5)}`,
+      title: `新しいタスク ${Math.random().toString(36).substring(2, 7)}`,
       description: 'Zustand ストアのテスト用タスクです。',
       assigneeId: currentUser?.id || 'unknown',
       assigneeName: currentUser?.name || 'Unknown User',
@@ -294,11 +294,18 @@ const StoresDemoPage: React.FC = () => {
             <StatItem>
               <StatLabel>アクティブフィルター:</StatLabel>
               <StatValue>
-                {Object.values(filters).some(f => 
-                  Array.isArray(f) ? f.length > 0 : 
-                  typeof f === 'object' ? f && (f.start || f.end || f.min > 0 || f.max < 5) : 
-                  false
-                ) ? 'あり' : 'なし'}
+                {(() => {
+                  const hasActiveFilters = 
+                    filters.category.length > 0 ||
+                    filters.tags.length > 0 ||
+                    filters.author.length > 0 ||
+                    filters.status.length > 0 ||
+                    filters.rating.min > 0 ||
+                    filters.rating.max < 5 ||
+                    filters.dateRange.start !== null ||
+                    filters.dateRange.end !== null;
+                  return hasActiveFilters ? 'あり' : 'なし';
+                })()}
               </StatValue>
             </StatItem>
             

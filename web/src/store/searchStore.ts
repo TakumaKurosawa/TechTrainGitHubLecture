@@ -209,7 +209,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
   saveCurrentSearch: (name) => {
     const { query, filters } = get();
     const savedSearch = {
-      id: `search-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `search-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
       name,
       query,
       filters,

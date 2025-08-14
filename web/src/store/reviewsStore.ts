@@ -89,7 +89,7 @@ export const useReviewsStore = create<ReviewsState>()(
       addReview: (reviewData) => {
         const newReview: Review = {
           ...reviewData,
-          id: `review-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `review-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -123,7 +123,7 @@ export const useReviewsStore = create<ReviewsState>()(
       addTask: (taskData) => {
         const newTask: Task = {
           ...taskData,
-          id: `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `task-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           createdAt: new Date().toISOString(),
         };
 
@@ -165,7 +165,7 @@ export const useReviewsStore = create<ReviewsState>()(
       addMeetingRecord: (meetingData) => {
         const newMeeting: MeetingRecord = {
           ...meetingData,
-          id: `meeting-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `meeting-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           createdAt: new Date().toISOString(),
         };
 
@@ -192,7 +192,7 @@ export const useReviewsStore = create<ReviewsState>()(
       addTeamMember: (memberData) => {
         const newMember: TeamMember = {
           ...memberData,
-          id: `member-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `member-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
         };
 
         set((state) => ({
