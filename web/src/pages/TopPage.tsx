@@ -186,6 +186,14 @@ const TopPage: React.FC = () => {
         >
           レビューを投稿
         </Button>
+        <Button
+          variant="outline"
+          onClick={() => navigate('/internships')}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          インターンシップを検索
+        </Button>
       </CTASection>
     </Container>
   );

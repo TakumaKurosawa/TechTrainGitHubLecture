@@ -13,6 +13,7 @@ import {
   ReviewDetailPage,
   ReviewsListPage,
   TopPage,
+  InternshipSearchPage,
 } from './pages';
 import { GlobalStyle, theme } from './styles';
 
@@ -25,6 +26,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/reviews" element={<ReviewsListPage />} />
         <Route path="/reviews/:id" element={<ReviewDetailPage />} />
         <Route path="/reviews/new" element={<NewReviewPage />} />
+        <Route path="/internships" element={<InternshipSearchPage />} />
       </Routes>
     </AnimatePresence>
   );
