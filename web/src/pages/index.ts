@@ -6,6 +6,7 @@ export * from './manager';
 export { default as Home } from './Home';
 export { default as About } from './About';
 export { default as FormDemo } from './FormDemo';
+export { default as StoresDemoPage } from './StoresDemoPage';
 
 // Review app pages
 export { default as TopPage } from './TopPage';

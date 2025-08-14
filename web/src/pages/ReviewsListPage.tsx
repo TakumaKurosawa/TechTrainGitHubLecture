@@ -4,6 +4,7 @@ import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button, Card } from '../components';
+import { useReviewsStore, selectPublishedReviews } from '../store';
 
 const Container = styled(motion.div)`
   min-height: 100vh;
@@ -114,72 +115,9 @@ const cardVariants = {
   animate: { opacity: 1, y: 0 },
 };
 
-// モックデータ
-const mockReviews = [
-  {
-    id: 1,
-    title: 'React Hooks の効果的な使い方',
-    description:
-      'useEffect や useState を使った効率的な状態管理について詳しく解説します。パフォーマンス最適化のテクニックも含めて説明します。',
-    author: '田中太郎',
-    rating: 4.5,
-    comments: 12,
-    createdAt: '2024-01-15',
-  },
-  {
-    id: 2,
-    title: 'TypeScript 型安全性のベストプラクティス',
-    description:
-      'TypeScript を使用した堅牢なアプリケーション開発のためのガイドライン。ジェネリクスや高度な型の活用方法を説明します。',
-    author: '佐藤花子',
-    rating: 5.0,
-    comments: 8,
-    createdAt: '2024-01-14',
-  },
-  {
-    id: 3,
-    title: 'CSS-in-JS による効率的なスタイリング',
-    description:
-      'styled-components を使用したコンポーネントベースのスタイリング手法。テーマ管理とレスポンシブデザインの実装。',
-    author: '山田次郎',
-    rating: 4.2,
-    comments: 15,
-    createdAt: '2024-01-13',
-  },
-  {
-    id: 4,
-    title: 'React Router v6 移行ガイド',
-    description:
-      'React Router v6 への移行で変更された API と新機能について。実際のプロジェクトでの移行経験をもとに解説。',
-    author: '鈴木美咲',
-    rating: 4.8,
-    comments: 7,
-    createdAt: '2024-01-12',
-  },
-  {
-    id: 5,
-    title: 'パフォーマンス最適化テクニック',
-    description:
-      'React アプリケーションのパフォーマンス改善方法。メモ化、遅延ローディング、バンドル最適化について詳しく説明。',
-    author: '高橋健一',
-    rating: 4.6,
-    comments: 23,
-    createdAt: '2024-01-11',
-  },
-  {
-    id: 6,
-    title: 'State Management with Zustand',
-    description:
-      'Zustand を使用した軽量で効率的な状態管理。Redux との比較と実際の使用例を含めて解説します。',
-    author: '中村あゆみ',
-    rating: 4.3,
-    comments: 9,
-    createdAt: '2024-01-10',
-  },
-];
-
 const ReviewsListPage: React.FC = () => {
   const navigate = useNavigate();
+  const reviews = useReviewsStore(selectPublishedReviews);
 
   const renderStars = (rating: number) => {
     const stars = [] as React.ReactNode[];
@@ -241,7 +179,7 @@ const ReviewsListPage: React.FC = () => {
         initial="initial"
         animate="animate"
       >
-        {mockReviews.map((review, index) => (
+        {reviews.map((review, index) => (
           <ReviewCard
             key={review.id}
             variants={cardVariants}
