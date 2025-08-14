@@ -252,6 +252,8 @@ make lint
 make build
 ```
 
+hoge
+
 ### パフォーマンス最適化
 
 - **バンドルサイズ目標**: 500KB 以内 (gzip)
