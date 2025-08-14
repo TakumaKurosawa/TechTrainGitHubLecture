@@ -8,7 +8,7 @@ import { Button, Card } from '../components';
 const Container = styled(motion.div)`
   min-height: 100vh;
   padding: 2rem;
-  background: ${(props) => props.theme.colors.background};
+  background: ${(props) => props.theme.colors.background.primary};
 `;
 
 const Header = styled(motion.div)`
@@ -114,14 +114,14 @@ const cardVariants = {
   animate: { opacity: 1, y: 0 },
 };
 
-// モックデータ
+// モックデータ - 詳細ページと一致させる
 const mockReviews = [
   {
     id: 1,
     title: 'React Hooks の効果的な使い方',
     description:
-      'useEffect や useState を使った効率的な状態管理について詳しく解説します。パフォーマンス最適化のテクニックも含めて説明します。',
-    author: '田中太郎',
+      'React Hooks の導入により、関数コンポーネントでも状態管理やライフサイクルメソッドが使用できるようになりました。',
+    companyName: '株式会社テックイノベート',
     rating: 4.5,
     comments: 12,
     createdAt: '2024-01-15',
@@ -130,28 +130,28 @@ const mockReviews = [
     id: 2,
     title: 'TypeScript 型安全性のベストプラクティス',
     description:
-      'TypeScript を使用した堅牢なアプリケーション開発のためのガイドライン。ジェネリクスや高度な型の活用方法を説明します。',
-    author: '佐藤花子',
+      'TypeScript の型システムを活用することで、開発時のバグを大幅に減らすことができました。',
+    companyName: '株式会社デジタルソリューション',
     rating: 5.0,
     comments: 8,
     createdAt: '2024-01-14',
   },
   {
     id: 3,
-    title: 'CSS-in-JS による効率的なスタイリング',
+    title: 'Vue.js 3 Composition API 体験レビュー',
     description:
-      'styled-components を使用したコンポーネントベースのスタイリング手法。テーマ管理とレスポンシブデザインの実装。',
-    author: '山田次郎',
-    rating: 4.2,
+      'Vue.js 3のComposition APIを実際のプロジェクトで使用してみた感想です。ロジックの再利用がしやすくなりました。',
+    companyName: '合同会社ウェブクリエイト',
+    rating: 3.8,
     comments: 15,
-    createdAt: '2024-01-13',
+    createdAt: '2024-01-10',
   },
   {
     id: 4,
     title: 'React Router v6 移行ガイド',
     description:
       'React Router v6 への移行で変更された API と新機能について。実際のプロジェクトでの移行経験をもとに解説。',
-    author: '鈴木美咲',
+    companyName: '鈴木美咲',
     rating: 4.8,
     comments: 7,
     createdAt: '2024-01-12',
@@ -161,7 +161,7 @@ const mockReviews = [
     title: 'パフォーマンス最適化テクニック',
     description:
       'React アプリケーションのパフォーマンス改善方法。メモ化、遅延ローディング、バンドル最適化について詳しく説明。',
-    author: '高橋健一',
+    companyName: '高橋健一',
     rating: 4.6,
     comments: 23,
     createdAt: '2024-01-11',
@@ -171,7 +171,7 @@ const mockReviews = [
     title: 'State Management with Zustand',
     description:
       'Zustand を使用した軽量で効率的な状態管理。Redux との比較と実際の使用例を含めて解説します。',
-    author: '中村あゆみ',
+    companyName: '中村あゆみ',
     rating: 4.3,
     comments: 9,
     createdAt: '2024-01-10',
@@ -257,7 +257,7 @@ const ReviewsListPage: React.FC = () => {
                 <ReviewTitle>{review.title}</ReviewTitle>
                 <ReviewMeta>
                   <Calendar size={14} />
-                  {review.createdAt} • {review.author}
+                  {review.createdAt} • {review.companyName}
                 </ReviewMeta>
               </div>
             </ReviewHeader>
